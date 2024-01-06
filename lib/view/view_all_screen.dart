@@ -14,6 +14,7 @@ class ViewAllScreen extends StatefulWidget {
 }
 
 class _ViewAllScreenState extends State<ViewAllScreen> {
+  List<String> categotys = ['Chairs', 'Table', 'Bad'];
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -37,20 +38,19 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
                   color: Colors.black,
                 ))
           ],
-          bottom: const TabBar(
+          bottom: TabBar(
               labelColor: Colors.black,
+              onTap: (value) {
+                listProducts
+                    .where((element) => element.code == value)
+                    .isNotEmpty;
+              },
               labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              tabs: [
-                Tab(
-                  text: 'Chairs',
-                ),
-                Tab(
-                  text: 'Table',
-                ),
-                Tab(
-                  text: 'Bad',
-                ),
-              ]),
+              tabs: List.generate(
+                  categotys.length,
+                  (index) => Tab(
+                        text: categotys[index],
+                      ))),
         ),
         body: Column(
           children: [
@@ -82,17 +82,10 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
                 ),
               ),
             ),
-
             Expanded(
                 flex: 9,
                 child: HomeShopWidget().gridProduct(
                     products: List.from(listProducts)..addAll(listProducts)))
-            // HomeShopWidget().slideImage(),
-            // HomeShopWidget().titleMenu(title: 'Best Seller'),
-            // HomeShopWidget().listComponent(imageList: imagesSlide),
-            // HomeShopWidget().titleMenu(title: 'Hand-Picks'),
-            // HomeShopWidget()
-            //    .listComponent(imageList: imagesSlide.reversed.toList())
           ],
         ),
       ),
