@@ -16,50 +16,87 @@ class _HomeScreenState extends State<HomeScreen> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          actions: [
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.shopping_basket_sharp,
-                  color: Colors.black,
-                )),
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.black,
-                ))
-          ],
-          bottom: const TabBar(
-              labelColor: Colors.black,
-              labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              tabs: [
-                Tab(
-                  text: 'Featured',
-                ),
-                Tab(
-                  text: 'New',
-                ),
-                Tab(
-                  text: 'Collection',
-                ),
-              ]),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              HomeShopWidget().slideImage(),
-              HomeShopWidget().titleMenu(context, title: 'Best Seller'),
-              HomeShopWidget().listComponent(imageList: imagesSlide),
-              HomeShopWidget().titleMenu(context, title: 'Hand-Picks'),
-              HomeShopWidget()
-                  .listComponent(imageList: imagesSlide.reversed.toList())
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            actions: [
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.shopping_basket_sharp,
+                    color: Colors.black,
+                  )),
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.menu,
+                    color: Colors.black,
+                  ))
             ],
+            bottom: const TabBar(
+                labelColor: Colors.black,
+                labelStyle:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                tabs: [
+                  Tab(
+                    text: 'Featured',
+                  ),
+                  Tab(
+                    text: 'New',
+                  ),
+                  Tab(
+                    text: 'Collection',
+                  ),
+                ]),
           ),
-        ),
+          body: TabBarView(
+              children: [featuredBuilld(), newBuilld(), collectionBuilld()])),
+    );
+  }
+
+  Widget featuredBuilld() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          HomeShopWidget().slideImage(),
+          HomeShopWidget().titleMenu(context, title: 'Best Seller'),
+          HomeShopWidget().listComponent(imageList: imagesSlide),
+          HomeShopWidget().titleMenu(context, title: 'Hand-Picks'),
+          HomeShopWidget()
+              .listComponent(imageList: imagesSlide.reversed.toList())
+        ],
+      ),
+    );
+  }
+
+  Widget newBuilld() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          HomeShopWidget().slideImage(),
+          HomeShopWidget().titleMenu(context, title: 'Best Seller'),
+          HomeShopWidget().listComponent(imageList: imagesSlide),
+          HomeShopWidget().titleMenu(context, title: 'Hand-Picks'),
+          HomeShopWidget()
+              .listComponent(imageList: imagesSlide.reversed.toList())
+        ],
+      ),
+    );
+  }
+
+  Widget collectionBuilld() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          HomeShopWidget().titleMenu(context, title: 'Brands'),
+          HomeShopWidget().listBrand(imageList: imagesSlide),
+          HomeShopWidget()
+              .titleMenu(context, title: 'Show Room', showViewAll: false),
+          HomeShopWidget().slideImage(),
+          HomeShopWidget().titleMenu(context, title: 'Discount'),
+          HomeShopWidget()
+              .listComponent(imageList: imagesSlide.reversed.toList())
+        ],
       ),
     );
   }

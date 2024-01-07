@@ -9,6 +9,14 @@ List<String> imagesSlide = [
   'https://media.karousell.com/media/photos/products/2023/6/15/table_and_chair_setfree_delive_1686824204_36015a6b_progressive',
   'https://ergonomic.sg/cdn/shop/products/412_631-B_f9f0ad25-7c1e-42b8-8639-4431d353ec55_1000x1000.jpg?v=1672725846',
 ];
+List<String> brandImage = [
+  'https://wallpapercave.com/wp/PVZLEqu.jpg',
+  'https://www.designyourway.net/blog/wp-content/uploads/2019/08/1985-logo-700x421.jpg',
+  'https://luxuryheterotopia.files.wordpress.com/2017/03/gucci-logo-3.jpg?w=682&h=441',
+  'https://assets.turbologo.com/blog/en/2020/01/19084709/louis-vuitton-primary-logo.png',
+  'https://cdn.mos.cms.futurecdn.net/6bTF6C2QiWXvhi33fJi3AC-320-80.jpg',
+  'https://1000logos.net/wp-content/uploads/2016/10/Air-Jordan-Logo-history-500x403.jpg',
+];
 
 class HomeShopWidget {
   Widget slideImage() {
@@ -51,12 +59,26 @@ class HomeShopWidget {
     );
   }
 
-  Widget componentWidget({required String imageUrl}) {
+  Widget listBrand({List? imageList}) {
+    return SizedBox(
+      height: 100,
+      width: double.infinity,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: brandImage.length,
+        itemBuilder: (context, index) => componentWidget(
+            imageUrl: brandImage[index], height: 100, width: 80),
+      ),
+    );
+  }
+
+  Widget componentWidget(
+      {required String imageUrl, double? height, double? width}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        height: 150,
-        width: 150,
+        height: height ?? 150,
+        width: width ?? 150,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,
@@ -66,10 +88,8 @@ class HomeShopWidget {
     );
   }
 
-  Widget titleMenu(
-    BuildContext context, {
-    String title = '',
-  }) {
+  Widget titleMenu(BuildContext context,
+      {String title = '', bool? showViewAll = true}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -79,22 +99,25 @@ class HomeShopWidget {
             title,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ViewAllScreen(),
-                  ));
-            },
-            child: const Text(
-              'View All',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Colors.orange),
-            ),
-          )
+          const Spacer(),
+          showViewAll!
+              ? TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ViewAllScreen(),
+                        ));
+                  },
+                  child: const Text(
+                    'View All',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.orange),
+                  ),
+                )
+              : const SizedBox()
         ],
       ),
     );
@@ -116,6 +139,10 @@ class HomeShopWidget {
                 fit: BoxFit.cover,
                 image: NetworkImage(products[index].image!),
               ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(products[index].name.toString()),
             ),
           ),
         ),

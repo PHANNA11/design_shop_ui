@@ -1,9 +1,5 @@
 import 'package:design_ui/view%20model/home_shop_widget.dart';
-import 'package:design_ui/view/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-
 import '../model/product_model.dart';
 
 class ViewAllScreen extends StatefulWidget {
@@ -15,6 +11,18 @@ class ViewAllScreen extends StatefulWidget {
 
 class _ViewAllScreenState extends State<ViewAllScreen> {
   List<String> categotys = ['Chairs', 'Table', 'Bad'];
+  List<ProductModel> filter = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      filter.clear();
+      filter.addAll(
+          listProducts.where((element) => element.cateId == 0).toList());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -41,11 +49,15 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
           bottom: TabBar(
               labelColor: Colors.black,
               onTap: (value) {
-                listProducts
-                    .where((element) => element.code == value)
-                    .isNotEmpty;
+                setState(() {
+                  filter.clear();
+                  filter.addAll(listProducts
+                      .where((element) => element.cateId == value)
+                      .toList());
+                });
               },
-              labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              labelStyle:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               tabs: List.generate(
                   categotys.length,
                   (index) => Tab(
@@ -83,9 +95,7 @@ class _ViewAllScreenState extends State<ViewAllScreen> {
               ),
             ),
             Expanded(
-                flex: 9,
-                child: HomeShopWidget().gridProduct(
-                    products: List.from(listProducts)..addAll(listProducts)))
+                flex: 9, child: HomeShopWidget().gridProduct(products: filter))
           ],
         ),
       ),
